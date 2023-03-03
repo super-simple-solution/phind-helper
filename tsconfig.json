@@ -32,13 +32,12 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "auto-imports.d.ts",
-    "src/directive/el-table/adaptive.js",
   ],
   "exclude": [
     "node_modules",
     "dist"
   ],
-  "types": ["vue", "vue-router", "pinia", "vite-plugin-svg-icons/client", "element-plus/global"],
+  "types": ["vue"],
   "typeRoots": [
     "./node_modules/@types",
     "./src/types/",
