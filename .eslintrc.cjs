@@ -4,11 +4,12 @@ module.exports = {
     es2020: true,
     node: true,
     browser: true,
+    webextensions: true,
   },
   plugins: ['vue', 'prettier'],
   extends: [
-    'plugin:vue/vue3-recommended',
     'eslint:recommended',
+    'plugin:vue/vue3-recommended',
     '@vue/typescript/recommended',
     'prettier',
     './.eslintrc-auto-import.json',

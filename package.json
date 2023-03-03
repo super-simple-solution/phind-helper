@@ -1,5 +1,5 @@
 {
-  "name": "leetcode",
+  "name": "phind-helper",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -7,12 +7,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^6.1.0",
-    "ant-design-vue": "^3.2.15",
     "axios": "^0.24.0",
-    "highlight.js": "^11.7.0",
-    "katex": "^0.15.6",
-    "markdown-it": "^12.3.2",
     "vue": "^3.2.47"
   },
   "devDependencies": {

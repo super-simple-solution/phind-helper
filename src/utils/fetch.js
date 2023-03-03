@@ -3,7 +3,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = false
 
 const service = axios.create({
-  baseURL: `${location.origin}/graphql/`,
+  baseURL: `${location.origin}/`,
   timeout: 30000, // 请求超时时间
 })
 
