@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .border-multicolor {
   border-image: linear-gradient(90deg,#575a7b,#575a7b 20%,#f9655b 0,#f9655b 40%,#f5c070 0,#f5c070 60%,#6658ea 0,#6658ea 80%,#fcc 0) 1;
   border-width: 0;
@@ -66,4 +70,21 @@
 
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
   cursor: pointer;
+}
+
+.shadow {
+  box-shadow: 0 0 6px rgba(27,22,66,.03),0 14px 24px rgba(27,22,66,.06)!important;
+}
+
+.suggestion-container {
+  position: relative;
+  top: -36px;
+}
+
+.select-item {
+  background-color: #fff;
+  &:hover {
+    color: #fff;
+    background-color: #6658ea;
+  }
 }

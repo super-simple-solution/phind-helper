@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.withCredentials = false
+axios.defaults.mode = 'no-cors'
 
 const service = axios.create({
   baseURL: `${location.origin}/`,
