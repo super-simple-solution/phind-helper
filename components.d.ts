@@ -10,5 +10,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Loading: typeof import('./src/components/Loading/index.vue')['default']
+    Skeleton: typeof import('./src/components/Skeleton/index.vue')['default']
   }
 }

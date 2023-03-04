@@ -12,6 +12,7 @@ const form = reactive({
 })
 const resultList = ref()
 const suggestionsListVisible = ref(false)
+const showList = ref(false)
 
 const searchRes: SearchRes = reactive({
   post: [],
@@ -27,6 +28,7 @@ const toGetSuggestions = debounce(() => {
 }, 500)
 
 watch(form, () => {
+  showList.value = false
   toGetSuggestions()
 })
 
@@ -43,6 +45,7 @@ function toSelect(index = 0) {
 }
 
 function toSearch() {
+  showList.value = true
   search({
     q: form.input,
   }).then((res) => {
@@ -94,11 +97,12 @@ function toSearch() {
           {{ item }}
         </div>
       </div>
-      <div class="text-left">
+      <div v-if="resultList.length && showList" class="text-left">
         <a v-for="(item, index) in resultList" :key="index" :href="item.url" class="hover:underline">
           {{ item.sentence }}
         </a>
       </div>
+      <Skeleton v-else></Skeleton>
     </div>
   </div>
 </template>
