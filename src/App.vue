@@ -7,10 +7,11 @@ type SearchRes = {
   suggestionList: string[]
 }
 
+const loading = ref(false)
 const form = reactive({
   input: '',
 })
-const resultList = ref()
+const resultList = ref<{ sentence: string; url: string }[]>([])
 const suggestionsListVisible = ref(false)
 const showList = ref(false)
 
@@ -20,12 +21,16 @@ const searchRes: SearchRes = reactive({
 })
 
 const toGetSuggestions = debounce(() => {
+  loading.value = true
   getSuggestions({
     q: form.input,
-  }).then((res: string[]) => {
-    searchRes.suggestionList = res
   })
-}, 500)
+    .then((res: string[]) => {
+      searchRes.suggestionList = res
+      inputChange()
+    })
+    .finally(() => (loading.value = false))
+}, 300)
 
 watch(form, () => {
   showList.value = false
@@ -49,20 +54,23 @@ function toSearch() {
   search({
     q: form.input,
   }).then((res) => {
+    loading.value = true
     concise({
       bingResults: res.processedBingResults,
       question: form.input,
-    }).then((res) => {
-      const data = res.match(/{"sentence":(.*?)}/g)
-      resultList.value = data.map((item: string) => JSON.parse(item))
     })
+      .then((res) => {
+        const data = res.match(/{"sentence":(.*?)}/g)
+        resultList.value = data.map((item: string) => JSON.parse(item))
+      })
+      .finally(() => (loading.value = false))
   })
-  searchRes.post = ['vue', 'react']
+  searchRes.post = []
 }
 </script>
 
 <template>
-  <div class="p-3">
+  <div class="w-[400px] p-2">
     <div class="text-center">
       <h2 class="text-2xl">Phind</h2>
       <p class="text-lg">The AI search engine for developers.</p>
@@ -85,7 +93,23 @@ function toSearch() {
         @change="inputChange"
       ></textarea>
       <div class="mt-1 mb-1 text-center">
-        <button class="btn btn-primary lift" type="submit" @click="toSearch()">Search</button>
+        <button class="btn btn-primary lift" type="submit" @click="toSearch()">
+          <svg
+            v-if="loading"
+            class="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Search
+        </button>
       </div>
       <div v-if="searchRes.suggestionList.length && suggestionsListVisible" class="suggestion-container">
         <div
@@ -102,7 +126,7 @@ function toSearch() {
           {{ item.sentence }}
         </a>
       </div>
-      <Skeleton v-else></Skeleton>
+      <Skeleton v-if="loading"></Skeleton>
     </div>
   </div>
 </template>
