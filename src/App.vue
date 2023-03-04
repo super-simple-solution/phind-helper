@@ -43,12 +43,16 @@ function clearSuggestions() {
   searchRes.suggestionList = []
 }
 
-function showSuggestions(show = true) {
-  suggestionsListVisible.value = show
+function showSuggestions(show = true, immidiate = true) {
+  if (immidiate) {
+    suggestionsListVisible.value = show
+  } else {
+    // 选中后消失
+    setTimeout(() => (suggestionsListVisible.value = show))
+  }
 }
 
 function toSelect(index = 0) {
-  showSuggestions(false)
   if (typeof index === 'number' && searchRes.suggestionList[index]) {
     form.input = searchRes.suggestionList[index]
   }
@@ -56,6 +60,7 @@ function toSelect(index = 0) {
 }
 
 function toSearch() {
+  showSuggestions(false)
   clearSuggestions()
   search({
     q: form.input,
@@ -96,7 +101,7 @@ function toSearch() {
         aria-label="For best results, use natural language. How to...? Why is...?"
         style="resize: none; height: 62px"
         @keyup.enter="toSearch()"
-        @blur="showSuggestions(false)"
+        @blur="showSuggestions(false, false)"
       ></textarea>
       <div class="mt-1 mb-1 text-center">
         <button class="btn btn-primary lift" type="submit" @click="toSearch()">
