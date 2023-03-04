@@ -9,18 +9,18 @@ const service = axios.create({
 })
 
 // service.interceptors.request.use(
-//   config => {
+//   (config) => {
 //     return config
 //   },
-//   error => {
+//   (error) => {
 //     return Promise.reject(error)
-//   }
+//   },
 // )
 
 service.interceptors.response.use(
   (response) => {
     const data = response.data
-    return data.data
+    return data
   },
   (error) => {
     return Promise.reject(error)

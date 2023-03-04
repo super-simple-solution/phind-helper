@@ -30,6 +30,6 @@ export function search(params: any): Promise<any> {
   })
 }
 
-export function concise(params: any): Promise<any> {
-  return service.post(apiMap.concise, ...params)
+export function concise(...paramsRest: any[]): Promise<any> {
+  return service.post(apiMap.concise, ...paramsRest)
 }

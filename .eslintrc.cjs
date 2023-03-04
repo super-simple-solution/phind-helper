@@ -23,6 +23,7 @@ module.exports = {
     'no-console': 0,
     'no-debugger': 0,
     '@typescript-eslint/no-explicit-any': ['off'],
+    'no-undef': 'off',
     quotes: [1, 'single'], //引号类型 `` "" ''
     semi: [2, 'never'], // 语句强制分号结尾
     'vue/multi-word-component-names': 0,

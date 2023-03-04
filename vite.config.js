@@ -6,6 +6,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import eslintPlugin from 'vite-plugin-eslint'
 import tailwind from 'tailwindcss'
 import manifest from './manifest.json'
+import Components from 'unplugin-vue-components/vite'
 
 // https://juejin.cn/post/7012446423367024676#heading-12
 
@@ -23,6 +24,10 @@ export default defineConfig({
     vue(),
     crx({ manifest }),
     eslintPlugin(),
+    Components({
+      dts: true,
+      dirs: ['src/components'],
+    }),
     AutoImport({
       // targets to transform
       include: [

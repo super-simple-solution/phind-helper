@@ -15,6 +15,6 @@
   },
   "action": { "default_popup": "index.html" },
   "host_permissions": [
-    "https://www.phind.com/"
+    "https://*.phind.com/"
   ]
 }
