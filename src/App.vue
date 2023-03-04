@@ -13,11 +13,10 @@ const form = reactive({
 })
 const resultList = ref<{ sentence: string; url: string }[]>([])
 const suggestionsListVisible = ref(false)
-const showList = ref(false)
 
 const searchRes: SearchRes = reactive({
   post: [],
-  suggestionList: ['react', 'vue'],
+  suggestionList: [],
 })
 
 const toGetSuggestions = debounce(() => {
@@ -27,22 +26,29 @@ const toGetSuggestions = debounce(() => {
   })
     .then((res: string[]) => {
       searchRes.suggestionList = res
-      inputChange()
+      showSuggestions()
     })
     .finally(() => (loading.value = false))
 }, 300)
 
 watch(form, () => {
-  showList.value = false
+  if (!form.input) {
+    clearSuggestions()
+    return
+  }
   toGetSuggestions()
 })
 
-function inputChange() {
-  suggestionsListVisible.value = true
+function clearSuggestions() {
+  searchRes.suggestionList = []
+}
+
+function showSuggestions(show = true) {
+  suggestionsListVisible.value = show
 }
 
 function toSelect(index = 0) {
-  suggestionsListVisible.value = false
+  showSuggestions(false)
   if (typeof index === 'number' && searchRes.suggestionList[index]) {
     form.input = searchRes.suggestionList[index]
   }
@@ -50,7 +56,7 @@ function toSelect(index = 0) {
 }
 
 function toSearch() {
-  showList.value = true
+  clearSuggestions()
   search({
     q: form.input,
   }).then((res) => {
@@ -90,7 +96,7 @@ function toSearch() {
         aria-label="For best results, use natural language. How to...? Why is...?"
         style="resize: none; height: 62px"
         @keyup.enter="toSearch()"
-        @change="inputChange"
+        @blur="showSuggestions(false)"
       ></textarea>
       <div class="mt-1 mb-1 text-center">
         <button class="btn btn-primary lift" type="submit" @click="toSearch()">
@@ -111,7 +117,7 @@ function toSearch() {
           Search
         </button>
       </div>
-      <div v-if="searchRes.suggestionList.length && suggestionsListVisible" class="suggestion-container">
+      <div v-if="suggestionsListVisible && searchRes.suggestionList.length" class="suggestion-container">
         <div
           v-for="(item, i) in searchRes.suggestionList"
           :key="i"
@@ -121,7 +127,7 @@ function toSearch() {
           {{ item }}
         </div>
       </div>
-      <div v-if="resultList.length && showList" class="text-left">
+      <div v-if="resultList.length" class="text-left">
         <a v-for="(item, index) in resultList" :key="index" :href="item.url" class="hover:underline">
           {{ item.sentence }}
         </a>
