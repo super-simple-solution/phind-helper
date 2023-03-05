@@ -73,30 +73,33 @@ const md: MarkdownIt = new MarkdownIt({
 function toSearch() {
   showSuggestions(false)
   clearSuggestions()
+  resultList.value = []
+  loading.value = true
   search({
     q: form.input,
   }).then((res) => {
-    loading.value = true
     concise({
       bingResults: res.processedBingResults,
       question: form.input,
     })
       .then((res) => {
-        const dataRes = res.replace(/data:\s{"token":\s"(.|\n|\s)*?"}/gm, '')
-        // console.log(dataList, 'dataList')
-        // dataList = dataList.map((item: string) => item.replace(/^data:/gm, '').trim())
-        const data = dataRes.match(/{"sentence":(.*?)}/g)
-        console.log(data, 'data')
-        resultList.value = data.map((item: string) => {
+        const resRaw = Array.from(res.matchAll(/data:\s{"sentence"[^\n]+/gm), (m: any) => Array.from(m)[0])
+        const dataList = resRaw
+          .map((item: string | unknown) => {
+            if (typeof item === 'string') {
+              return item.replace(/^\s*?data:/g, '')?.trim()
+            }
+            return ''
+          })
+          .filter(Boolean)
+        resultList.value = dataList.map((item: string) => {
           let jsonRes: any = {}
           try {
             jsonRes = JSON.parse(item)
           } catch (error) {
             console.log(item, 'error res')
-            console.log(error, 'error')
           }
           const mdRes = md.render(jsonRes.sentence || '')
-          console.log(mdRes, 'mdRes')
           return {
             ...jsonRes,
             sentence: mdRes,
