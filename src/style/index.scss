@@ -96,3 +96,8 @@
     display: block;
     padding: 0.75rem 1.25rem;
 }
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+  list-style: inside;
+}

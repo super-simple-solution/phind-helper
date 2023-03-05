@@ -107,7 +107,7 @@ function toSearch() {
 </script>
 
 <template>
-  <div class="w-[400px] bg-white p-2">
+  <div class="w-[500px] bg-white p-2">
     <div class="text-center">
       <h2 class="text-2xl">Phind</h2>
       <p class="text-lg">The AI search engine for developers.</p>
@@ -158,12 +158,63 @@ function toSearch() {
           {{ item }}
         </div>
       </div>
-      <div v-if="resultList.length" class="text-left">
-        <a v-for="(item, index) in resultList" :key="index" :href="item.url" class="hover:underline">
-          <span v-html="item.sentence"></span>
-        </a>
+      <div v-if="resultList.length" class="result-box text-left">
+        <template v-for="(item, index) in resultList" :key="index">
+          <a v-if="item.url" :href="item.url" class="hover:underline">
+            <span v-html="item.sentence"></span>
+          </a>
+          <span v-else v-html="item.sentence"></span>
+        </template>
       </div>
       <Skeleton v-if="loading"></Skeleton>
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.result-box {
+  font-size: 14px;
+  ul li {
+    line-height: 2;
+    code {
+      background-color: rgb(40, 42, 54);
+      padding: 3px;
+      border-radius: 8px;
+      color: white;
+    }
+  }
+  p {
+    margin-bottom: 10px;
+    code {
+      background-color: rgb(40, 42, 54);
+      padding: 3px;
+      border-radius: 8px;
+      color: white;
+    }
+  }
+  span pre {
+    display: block;
+    background-color: rgb(40, 42, 54);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    margin-top: 0;
+    overflow: auto;
+    margin-top: 0.75rem;
+    padding: 0.25rem;
+    unicode-bidi: bidi-override;
+    code {
+      color: rgb(248, 248, 242);
+      text-shadow: rgb(0 0 0 / 30%) 0px 1px;
+      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      line-height: 1.5;
+      tab-size: 4;
+      hyphens: none;
+    }
+  }
+}
+</style>
