@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import hljs from 'highlight.js'
-import 'highlight.js/styles/default.css'
+import 'highlight.js/styles/stackoverflow-dark.css'
 import { debounce } from './utils/index'
 import { getSuggestions, search, concise } from '@/api'
 import MarkdownIt from 'markdown-it'
@@ -23,6 +23,10 @@ const searchRes: SearchRes = reactive({
 })
 
 const toGetSuggestions = debounce(() => {
+  if (!form.input) {
+    clearSuggestions()
+    return
+  }
   loading.value = true
   getSuggestions({
     q: form.input,
@@ -71,6 +75,7 @@ const md: MarkdownIt = new MarkdownIt({
   },
 })
 function toSearch() {
+  if (!form.input) return
   showSuggestions(false)
   clearSuggestions()
   resultList.value = []
@@ -132,7 +137,7 @@ function toSearch() {
         placeholder="For best results, use natural language. How to...? Why is...?"
         aria-label="For best results, use natural language. How to...? Why is...?"
         style="resize: none; height: 62px"
-        @keyup.enter="toSearch()"
+        @keydown.enter.prevent="toSearch()"
         @input="toGetSuggestions"
       ></textarea>
       <div class="my-3 mb-1 flex justify-center text-center">
