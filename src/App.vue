@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import hljs from 'highlight.js'
+import 'highlight.js/styles/default.css'
 import { debounce } from './utils/index'
 import { getSuggestions, search, concise } from '@/api'
 import MarkdownIt from 'markdown-it'
@@ -52,7 +54,22 @@ function toSelect(index = 0) {
   toSearch()
 }
 
-const md = new MarkdownIt({ html: true })
+const md: MarkdownIt = new MarkdownIt({
+  html: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      return hljs.highlightAuto(str).value
+    }
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
+    // return ''; // use external default escaping
+  },
+})
 function toSearch() {
   showSuggestions(false)
   clearSuggestions()
@@ -66,12 +83,22 @@ function toSearch() {
     })
       .then((res) => {
         const data = res.match(/{"sentence":(.*?)}/g)
-        resultList.value = data
-          .map((item: string) => JSON.parse(item))
-          .map((item) => ({
-            ...item,
-            sentence: md.render(item.sentence),
-          }))
+        console.log(data, 'data')
+        resultList.value = data.map((item: string) => {
+          let jsonRes: any = {}
+          try {
+            jsonRes = JSON.parse(item)
+          } catch (error) {
+            console.log(item, 'error res')
+            console.log(error, 'error')
+          }
+          const mdRes = md.render(jsonRes.sentence || '')
+          console.log(mdRes, 'mdRes')
+          return {
+            ...jsonRes,
+            sentence: mdRes,
+          }
+        })
       })
       .finally(() => (loading.value = false))
   })
@@ -133,7 +160,7 @@ function toSearch() {
       </div>
       <div v-if="resultList.length" class="text-left">
         <a v-for="(item, index) in resultList" :key="index" :href="item.url" class="hover:underline">
-          {{ item.sentence }}
+          <span v-html="item.sentence"></span>
         </a>
       </div>
       <Skeleton v-if="loading"></Skeleton>

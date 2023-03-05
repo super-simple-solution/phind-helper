@@ -5,6 +5,7 @@ specifiers:
   '@iconify-json/ep': ^1.1.9
   '@types/chrome': ^0.0.219
   '@types/js-cookie': ^3.0.2
+  '@types/markdown-it': ^12.2.3
   '@typescript-eslint/eslint-plugin': ^5.52.0
   '@typescript-eslint/parser': ^5.52.0
   '@vitejs/plugin-vue': ^4.0.0
@@ -19,6 +20,7 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-vue: ^9.9.0
+  highlight.js: ^11.7.0
   markdown-it: ^13.0.1
   postcss: ^8.4.21
   postcss-import: ^15.1.0
@@ -38,6 +40,7 @@ specifiers:
 
 dependencies:
   axios: 0.24.0
+  highlight.js: 11.7.0
   markdown-it: 13.0.1
   vue: 3.2.47
 
@@ -46,6 +49,7 @@ devDependencies:
   '@iconify-json/ep': 1.1.9
   '@types/chrome': 0.0.219
   '@types/js-cookie': 3.0.2
+  '@types/markdown-it': 12.2.3
   '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
   '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
   '@vitejs/plugin-vue': 4.0.0_vite@4.1.2+vue@3.2.47
@@ -66,7 +70,7 @@ devDependencies:
   sass: 1.58.2
   stylelint: 15.2.0
   stylelint-prettier: 3.0.0_7tfqzuwksfwysdxnjpqifqt36u
-  tailwindcss: 3.2.7
+  tailwindcss: 3.2.7_postcss@8.4.21
   typescript: 4.9.5
   unplugin-auto-import: 0.12.2
   unplugin-vue-components: 0.24.0_vue@3.2.47
@@ -863,6 +867,21 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/linkify-it/3.0.2:
+    resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
+    dev: true
+
+  /@types/markdown-it/12.2.3:
+    resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==}
+    dependencies:
+      '@types/linkify-it': 3.0.2
+      '@types/mdurl': 1.0.2
+    dev: true
+
+  /@types/mdurl/1.0.2:
+    resolution: {integrity: sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==}
     dev: true
 
   /@types/minimist/1.2.2:
@@ -2251,6 +2270,11 @@ packages:
       tslib: 2.5.0
     dev: true
 
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /hookable/5.4.2:
     resolution: {integrity: sha512-6rOvaUiNKy9lET1X0ECnyZ5O5kSV0PJbtA5yZUgdEF7fGJEVwSLSislltyt7nFwVVALYHQJtfGeAR2Y0A0uJkg==}
     dev: true
@@ -3588,10 +3612,12 @@ packages:
       strip-ansi: 6.0.1
     dev: true
 
-  /tailwindcss/3.2.7:
+  /tailwindcss/3.2.7_postcss@8.4.21:
     resolution: {integrity: sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

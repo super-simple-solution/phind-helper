@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "highlight.js": "^11.7.0",
     "markdown-it": "^13.0.1",
     "vue": "^3.2.47"
   },
@@ -16,6 +17,7 @@
     "@iconify-json/ep": "^1.1.9",
     "@types/chrome": "^0.0.219",
     "@types/js-cookie": "^3.0.2",
+    "@types/markdown-it": "^12.2.3",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "@vitejs/plugin-vue": "^4.0.0",

@@ -14,8 +14,8 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "noImplicitAny": false,
-    "types": ["vite/client", "chrome"],
+    // "noImplicitAny": false,
+    "types": ["vite/client", "chrome", "markdown-it"],
     "lib": [
       "esnext",
       "dom"
