@@ -31,14 +31,6 @@ const toGetSuggestions = debounce(() => {
     .finally(() => (loading.value = false))
 }, 300)
 
-watch(form, () => {
-  if (!form.input) {
-    clearSuggestions()
-    return
-  }
-  toGetSuggestions()
-})
-
 function clearSuggestions() {
   searchRes.suggestionList = []
 }
@@ -81,7 +73,7 @@ function toSearch() {
 </script>
 
 <template>
-  <div class="w-[400px] p-2">
+  <div class="w-[400px] bg-white p-2">
     <div class="text-center">
       <h2 class="text-2xl">Phind</h2>
       <p class="text-lg">The AI search engine for developers.</p>
@@ -101,10 +93,10 @@ function toSearch() {
         aria-label="For best results, use natural language. How to...? Why is...?"
         style="resize: none; height: 62px"
         @keyup.enter="toSearch()"
-        @blur="showSuggestions(false, false)"
+        @input="toGetSuggestions"
       ></textarea>
-      <div class="mt-1 mb-1 text-center">
-        <button class="btn btn-primary lift" type="submit" @click="toSearch()">
+      <div class="my-3 mb-1 flex justify-center text-center">
+        <button class="btn btn-primary lift flex items-center justify-center" type="submit" @click="toSearch()">
           <svg
             v-if="loading"
             class="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
@@ -119,7 +111,7 @@ function toSearch() {
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          Search
+          <span>Search</span>
         </button>
       </div>
       <div v-if="suggestionsListVisible && searchRes.suggestionList.length" class="suggestion-container">
