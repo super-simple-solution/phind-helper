@@ -82,7 +82,10 @@ function toSearch() {
       question: form.input,
     })
       .then((res) => {
-        const data = res.match(/{"sentence":(.*?)}/g)
+        const dataRes = res.replace(/data:\s{"token":\s"(.|\n|\s)*?"}/gm, '')
+        // console.log(dataList, 'dataList')
+        // dataList = dataList.map((item: string) => item.replace(/^data:/gm, '').trim())
+        const data = dataRes.match(/{"sentence":(.*?)}/g)
         console.log(data, 'data')
         resultList.value = data.map((item: string) => {
           let jsonRes: any = {}
@@ -174,7 +177,8 @@ function toSearch() {
 <style lang="scss">
 .result-box {
   font-size: 14px;
-  ul li {
+  ul li,
+  ol li {
     line-height: 2;
     code {
       background-color: rgb(40, 42, 54);
