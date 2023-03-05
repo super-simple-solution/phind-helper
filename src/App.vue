@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { debounce } from './utils/index'
 import { getSuggestions, search, concise } from '@/api'
+import MarkdownIt from 'markdown-it'
 
 type SearchRes = {
   post: string[]
@@ -51,6 +52,7 @@ function toSelect(index = 0) {
   toSearch()
 }
 
+const md = new MarkdownIt({ html: true })
 function toSearch() {
   showSuggestions(false)
   clearSuggestions()
@@ -64,7 +66,12 @@ function toSearch() {
     })
       .then((res) => {
         const data = res.match(/{"sentence":(.*?)}/g)
-        resultList.value = data.map((item: string) => JSON.parse(item))
+        resultList.value = data
+          .map((item: string) => JSON.parse(item))
+          .map((item) => ({
+            ...item,
+            sentence: md.render(item.sentence),
+          }))
       })
       .finally(() => (loading.value = false))
   })
