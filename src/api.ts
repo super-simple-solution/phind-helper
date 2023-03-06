@@ -4,7 +4,7 @@ const phindApiPrefix = 'https://phind.com/api/'
 const apiMap = {
   suggestions: `${phindApiPrefix}suggestions`,
   search: `${phindApiPrefix}search`,
-  concise: `${phindApiPrefix}concise`,
+  tldr: `${phindApiPrefix}tldr`,
 }
 
 export function getSuggestions(params: { [char: string]: string }): Promise<any> {
@@ -30,6 +30,6 @@ export function search(params: any): Promise<any> {
   })
 }
 
-export function concise(...paramsRest: any[]): Promise<any> {
-  return service.post(apiMap.concise, ...paramsRest)
+export function tldr(...paramsRest: any[]): Promise<any> {
+  return service.post(apiMap.tldr, ...paramsRest)
 }
