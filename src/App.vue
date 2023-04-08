@@ -2,9 +2,9 @@
 import hljs from 'highlight.js'
 import 'highlight.js/styles/stackoverflow-dark.css'
 import { debounce } from './utils/index'
-import { getSuggestions, search, tldr } from '@/api'
+import { dateFormat } from '@/utils/moment'
+import { getSuggestions, search, answer } from '@/api'
 import MarkdownIt from 'markdown-it'
-
 type SearchRes = {
   post: string[]
   suggestionList: string[]
@@ -83,9 +83,16 @@ function toSearch() {
   search({
     q: form.input,
   }).then((res) => {
-    tldr({
+    answer({
       bingResults: res.processedBingResults,
       question: form.input,
+      options: {
+        skill: 'intermediate',
+        detailed: true,
+        creative: false,
+        language: 'en',
+        date: dateFormat(new Date().getTime()),
+      },
     })
       .then((res) => {
         const resRaw = Array.from(res.matchAll(/data:\s{"sentence"[^\n]+/gm), (m: any) => Array.from(m)[0])

@@ -2,9 +2,9 @@ import service from '@/utils/fetch'
 
 const phindApiPrefix = 'https://phind.com/api/'
 const apiMap = {
-  suggestions: `${phindApiPrefix}suggestions`,
-  search: `${phindApiPrefix}search`,
-  tldr: `${phindApiPrefix}tldr`,
+  suggestions: `${phindApiPrefix}bing/suggestions`,
+  search: `${phindApiPrefix}bing/search`,
+  answer: `${phindApiPrefix}infer/answer`,
 }
 
 export function getSuggestions(params: { [char: string]: string }): Promise<any> {
@@ -30,6 +30,6 @@ export function search(params: any): Promise<any> {
   })
 }
 
-export function tldr(...paramsRest: any[]): Promise<any> {
-  return service.post(apiMap.tldr, ...paramsRest)
+export function answer(...paramsRest: any[]): Promise<any> {
+  return service.post(apiMap.answer, ...paramsRest)
 }
